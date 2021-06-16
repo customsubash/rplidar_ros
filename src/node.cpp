@@ -199,6 +199,12 @@ int main(int argc, char * argv[]) {
     nh_private.param<bool>("inverted", inverted, false);
     nh_private.param<bool>("angle_compensate", angle_compensate, false);
     nh_private.param<std::string>("scan_mode", scan_mode, std::string());
+  
+    float min_angle = -M_PI;
+    float max_angle = M_PI;
+  
+    nh_private.param<float>("min_angle", min_angle, -M_PI);
+    nh_private.param<float>("max_angle", max_angle, M_PI);
 
     ROS_INFO("RPLIDAR running on ROS package rplidar_ros. SDK Version:"RPLIDAR_SDK_VERSION"");
 
@@ -293,8 +299,10 @@ int main(int argc, char * argv[]) {
 
         if (op_result == RESULT_OK) {
             op_result = drv->ascendScanData(nodes, count);
-            float angle_min = DEG2RAD(0.0f);
-            float angle_max = DEG2RAD(359.0f);
+            // float angle_min = DEG2RAD(0.0f);
+            // float angle_max = DEG2RAD(359.0f);
+            float angle_min = M_PI + min_angle;
+            float angle_max = M_PI + max_angle;
             if (op_result == RESULT_OK) {
                 if (angle_compensate) {
                     //const int angle_compensate_multiple = 1;
