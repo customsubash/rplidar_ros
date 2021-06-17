@@ -306,14 +306,25 @@ int main(int argc, char * argv[]) {
             if (op_result == RESULT_OK) {
                 if (angle_compensate) {
                     //const int angle_compensate_multiple = 1;
-                    const int angle_compensate_nodes_count = 360*angle_compensate_multiple;
+                    
+                    // Subash Ghimire has added
+                    const int start_node = (int)(count/(2*M_PI))*angle_min;
+                    const int end_node = (int)(count/(2*M_PI))*angle_max;
+                    const int total_angle = (int)((end_node - start_node)/count * 360);
+                    const int angle_compensate_nodes_count = total_angle*angle_compensate_multiple;
+                  
+                    // const int angle_compensate_nodes_count = 360*angle_compensate_multiple;
                     int angle_compensate_offset = 0;
                     rplidar_response_measurement_node_hq_t angle_compensate_nodes[angle_compensate_nodes_count];
                     memset(angle_compensate_nodes, 0, angle_compensate_nodes_count*sizeof(rplidar_response_measurement_node_hq_t));
-
-                    int i = 0, j = 0;
-                    for( ; i < count; i++ ) {
-                        if (nodes[i].dist_mm_q2 != 0) {
+                    
+                    // Subash Ghimire has replaced
+                    int i = start_node, j = 0;
+                    for( ; i < angle_compensate_nodes_count; i++ ) {
+                    
+                    //int i = 0, j = 0;
+                    //for( ; i < count; i++ ) {
+                       if (nodes[i].dist_mm_q2 != 0) {
                             float angle = getAngle(nodes[i]);
                             int angle_value = (int)(angle * angle_compensate_multiple);
                             if ((angle_value - angle_compensate_offset) < 0) angle_compensate_offset = angle_value;
