@@ -199,12 +199,15 @@ int main(int argc, char * argv[]) {
     nh_private.param<bool>("inverted", inverted, false);
     nh_private.param<bool>("angle_compensate", angle_compensate, false);
     nh_private.param<std::string>("scan_mode", scan_mode, std::string());
-  
-    float min_angle = -M_PI;
-    float max_angle = M_PI;
-  
-    nh_private.param<float>("min_angle", min_angle, -M_PI);
-    nh_private.param<float>("max_angle", max_angle, M_PI);
+     
+    // Subash Ghimire has added
+    int min = -180;
+    int max = 180;
+    nh_private.param<int>("min_angle", min, -180);
+    nh_private.param<int>("max_angle", max, 180);
+    float min_angle = DEGTORAD(min);
+    float max_angle = DEGTORAD(max);
+    
 
     ROS_INFO("RPLIDAR running on ROS package rplidar_ros. SDK Version:"RPLIDAR_SDK_VERSION"");
 
