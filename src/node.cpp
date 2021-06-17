@@ -205,8 +205,8 @@ int main(int argc, char * argv[]) {
     int max = 180;
     nh_private.param<int>("min_angle", min, -180);
     nh_private.param<int>("max_angle", max, 180);
-    float min_angle = DEGTORAD(min);
-    float max_angle = DEGTORAD(max);
+    float min_angle = DEG2RAD(min);
+    float max_angle = DEG2RAD(max);
     
 
     ROS_INFO("RPLIDAR running on ROS package rplidar_ros. SDK Version:"RPLIDAR_SDK_VERSION"");
